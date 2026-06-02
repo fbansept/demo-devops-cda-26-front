@@ -1,12 +1,22 @@
-import { Component, signal } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Component, inject, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import { environment } from '../environments/environment';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
+  imports: [],
   templateUrl: './app.html',
-  styleUrl: './app.scss'
+  styleUrl: './app.scss',
 })
 export class App {
-  protected readonly title = signal('demo-devops-cda-26-front');
+  httpClient = inject(HttpClient);
+
+  ngOnInit() {
+    this.httpClient.get(environment.serverUrl + '/hello').subscribe({
+      next: (data) => {
+        console.log(data);
+      },
+    });
+  }
 }
